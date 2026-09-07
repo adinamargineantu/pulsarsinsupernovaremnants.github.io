@@ -340,7 +340,7 @@
 <td class="num-col" data-col="vtrans" data-sort="600">600</td>
 <td class="num-col" data-col="period" data-sort="0.11">0.11</td>
 <td class="refs" data-col="refs"><a href="https://doi.org/10.3847/1538-4357/aaad07" rel="noopener" target="_blank">Bear 2018</a>, <a href="https://doi.org/10.1088/0004-637X/695/1/L35" rel="noopener" target="_blank">Gotthelf 2009</a></td>
-<td class="evaluation" data-col="evaluation">Likely</td>
+<td class="evaluation" data-col="evaluation">Certain</td>
 </tr>
 <tr>
 <td class="num" data-col="num" data-sort="9">9</td>
@@ -568,7 +568,7 @@
 <td class="num-col" data-col="vtrans" data-sort="2000">2000*</td>
 <td class="num-col" data-col="period" data-sort="0.21">0.21</td>
 <td class="refs" data-col="refs"><a href="https://arxiv.org/abs/2508.18999" rel="noopener" target="_blank">Abdelmaguid 2025</a>, <a href="https://doi.org/10.1088/0004-637X/788/2/155" rel="noopener" target="_blank">Gotthelf 2014</a></td>
-<td class="evaluation" data-col="evaluation">Certain</td>
+<td class="evaluation" data-col="evaluation">Likely</td>
 </tr>
 <tr>
 <td class="num" data-col="num" data-sort="28">28</td>
@@ -1214,14 +1214,23 @@
     countEl.textContent = visible + ' of ' + allRows.length + ' associations';
   }
 
-  function filterRows() {
-    const q = searchBox.value.trim().toLowerCase();
-    allRows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = (!q || text.includes(q)) ? '' : 'none';
-    });
-    updateCount();
-  }
+function filterRows() {
+  const q = searchBox.value.trim();
+
+  allRows.forEach(row => {
+    const text = row.textContent;
+
+    if (!q) {
+      row.style.display = '';
+      return;
+    }
+
+    const regex = new RegExp('\\b' + q + '\\b', 'i');
+    row.style.display = regex.test(text) ? '' : 'none';
+  });
+
+  updateCount();
+}
 
   searchBox.addEventListener('input', filterRows);
 
